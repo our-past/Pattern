@@ -7,6 +7,9 @@ import equipment.HomeAppliances;
  * 智能电饭煲
  */
 public class ElectricCooktop extends Equipment implements HomeAppliances {
+    public ElectricCooktop() {
+        super("2", "智能电饭煲");
+    }
     @Override
     public void selfCheck() {
         System.out.println(" ElectricCooktop selfCheck");

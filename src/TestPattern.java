@@ -16,5 +16,7 @@ public class TestPattern {
         rushroomDeviceGroup.addComponent(lamp1);
         rushroomDeviceGroup.addComponent(lamp2);
         roomDeviceGroup.addComponent(rushroomDeviceGroup);
+        roomDeviceGroup.start();
+        roomDeviceGroup.stop();
     }
 }

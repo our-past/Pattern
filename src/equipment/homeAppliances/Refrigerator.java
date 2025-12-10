@@ -7,6 +7,9 @@ import equipment.HomeAppliances;
  * 冰箱
  */
 public class Refrigerator extends Equipment implements HomeAppliances {
+    public Refrigerator() {
+        super("6", "冰箱");
+    }
     @Override
     public void selfCheck() {
         System.out.println(" Refrigerator selfCheck");

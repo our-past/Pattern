@@ -7,6 +7,9 @@ import equipment.HomeAppliances;
  * 智能电视
  */
 public class SmartTV extends Equipment implements HomeAppliances {
+    public SmartTV() {
+        super("7", "智能电视");
+    }
     @Override
     public void selfCheck() {
         System.out.println(" SmartTV selfCheck");

@@ -7,6 +7,9 @@ import equipment.HomeAppliances;
  * 灯
  */
 public class lamp extends Equipment implements HomeAppliances {
+    public lamp() {
+        super("4", "Lamp");
+    }
     @Override
     public void selfCheck() {
         System.out.println(" Lamp selfCheck");
