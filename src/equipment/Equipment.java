@@ -23,6 +23,14 @@ public abstract class Equipment {
      */
     State state;
 
+    public Equipment() {
+    }
+
+    public Equipment(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     /**
      * 自检
      */
