@@ -1,13 +1,22 @@
+import cd.DeviceGroup;
 import equipment.Equipment;
+import equipment.homeAppliances.SmartTV;
 import equipment.homeAppliances.lamp;
 
-import java.util.HashMap;
-
 public class TestPattern {
-    HashMap<Integer, Equipment> equipmentMap = new HashMap<>();
-    public static void main(String[] args) {
-        TestPattern test = new TestPattern();
-        test.equipmentMap.put(1, new lamp());
-        test.equipmentMap.get(1).start();
+    public static void main(String[] args){
+        DeviceGroup roomDeviceGroup = new DeviceGroup("客厅设备组");
+        Equipment lamp = new lamp();
+        Equipment tv = new SmartTV();
+        roomDeviceGroup.addComponent(lamp);
+        roomDeviceGroup.addComponent(tv);
+        DeviceGroup rushroomDeviceGroup = new DeviceGroup("灯设备组");
+        Equipment lamp1 = new lamp();
+        Equipment lamp2 = new lamp();
+        rushroomDeviceGroup.addComponent(lamp1);
+        rushroomDeviceGroup.addComponent(lamp2);
+        roomDeviceGroup.addComponent(rushroomDeviceGroup);
+        roomDeviceGroup.start();
+        roomDeviceGroup.stop();
     }
 }

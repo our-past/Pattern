@@ -7,6 +7,9 @@ import equipment.HomeAppliances;
  * 热水器
  */
 public class ElectricWaterHeater extends Equipment implements HomeAppliances {
+    public ElectricWaterHeater() {
+        super("ElectricWaterHeater", "热水器");
+    }
     @Override
     public void selfCheck() {
         System.out.println(" ElectricWaterHeater selfCheck");
