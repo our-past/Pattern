@@ -39,6 +39,7 @@ public  class DeviceGroup extends Equipment implements HomeAppliances {
     public void startSelf(){
     for (Equipment equipment : equipments){
         equipment.start();
+
         }
     }
 
