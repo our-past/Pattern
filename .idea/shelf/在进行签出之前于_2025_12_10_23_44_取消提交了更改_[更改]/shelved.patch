@@ -1,0 +1,13 @@
+Index: src/cd/1
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>dwada
+===================================================================
+diff --git a/src/cd/1 b/src/cd/1
+--- a/src/cd/1	(revision 364008a40264ed4f67cda351336cf23fd70d2292)
++++ b/src/cd/1	(date 1765381379447)
+@@ -1,1 +1,1 @@
+-dwada
+\ No newline at end of file
++dwadaffs
+\ No newline at end of file
