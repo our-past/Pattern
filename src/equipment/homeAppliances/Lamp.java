@@ -6,9 +6,20 @@ import equipment.HomeAppliances;
 /**
  * 灯
  */
-public class lamp extends Equipment implements HomeAppliances {
-    public lamp() {
-        super("4", "Lamp");
+public class Lamp extends Equipment implements HomeAppliances {
+    /**
+     * 灯构造函数
+     */
+    public Lamp() {
+        super();
+    }
+    /**
+     * 灯构造函数
+     * @param name 灯名称
+     * @param id 灯ID
+     */
+    public Lamp(String id,String name) {
+        super(id,name);
     }
     @Override
     public void selfCheck() {
