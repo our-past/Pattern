@@ -5,6 +5,8 @@ import equipment.State.GreenState;
 import equipment.State.RedState;
 import equipment.State.State;
 
+import java.util.HashMap;
+
 /**
  * 设备接口
  * 负责人：ourPast
@@ -13,15 +15,23 @@ public abstract class Equipment {
     /**
      * 设备ID
      */
-    String id;
+    private String id;
     /**
      * 设备名称
      */
-    String name;
+    private String name;
     /**
      * 设备状态
      */
-    State state;
+    private State state;
+
+    public Equipment() {
+    }
+
+    public Equipment(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     /**
      * 自检

@@ -1,0 +1,15 @@
+Index: src/cd/1
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>1111111211df
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/cd/1 b/src/cd/1
+--- a/src/cd/1	(revision c8a5a2fbae1e35d66bdf5c7fe6338f72b32cf978)
++++ b/src/cd/1	(date 1765381561942)
+@@ -1,1 +1,1 @@
+-1111111211df
+\ No newline at end of file
++1111111211dffsdfs
+\ No newline at end of file
