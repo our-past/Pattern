@@ -3,9 +3,11 @@ package system_FYK;
 import cd.DeviceGroup;
 import common.LangDetectFormatRegexConstants;
 import equipment.Equipment;
-import room_fyk.Room;
-import room_fyk.factory.RoomFactory;
-import room_fyk.roomConfig.RoomConfig;
+import equipment.adapter_CD.DeviceAdapter;
+import equipment.decorator_HYH.EquipmentDecorator;
+import room.Room;
+import room.factory.RoomFactory;
+import room.roomConfig_HYH.RoomConfig;
 import equipment.factory.EquipmentFactory;
 
 import java.util.HashMap;
@@ -38,6 +40,15 @@ public class SmartHomeControlSystem {
     // 房间配置管理
     private final Map<String, RoomConfig> roomConfigs = new HashMap<>();
     private  Integer nextRoomConfigId = 1;
+    // 设备适配器管理
+    private final Map<String, DeviceAdapter> deviceAdapters = new HashMap<>();
+    // 设备装饰器管理
+    private final Map<String, EquipmentDecorator> equipmentDecorators = new HashMap<>();
+
+
+
+    public SmartHomeControlSystem() {
+    }
 
     /**
      * 获取单例实例
@@ -116,6 +127,62 @@ public class SmartHomeControlSystem {
         roomGroups.get(roomId).addEquipment(equipments.get(equipmentId));
         System.out.println("设备已添加到房间：" + roomGroups.get(roomId).getName());
     }
+
+    /**
+     * 注册设备适配器
+     * @param adapter 设备适配器
+     */
+    public void registerDeviceAdapter(DeviceAdapter adapter) {
+        deviceAdapters.put(adapter.getClass().getSimpleName(), adapter);
+        System.out.println("设备适配器已注册：" + adapter.getClass().getSimpleName());
+    }
+
+    /**
+     * 集成第三方设备
+     * @param thirdPartyDevice 第三方设备实例
+     * @param deviceType 设备类型
+     * @return 系统分配的设备ID
+     */
+    public String integrateThirdPartyDevice(Object thirdPartyDevice, String deviceType) {
+        // 查找兼容的适配器
+        DeviceAdapter adapter = findCompatibleAdapter(deviceType);
+        if (adapter == null) {
+            System.out.println("未找到兼容的设备适配器：" + deviceType);
+            return null;
+        }
+
+        // 生成系统设备ID和名称
+        String systemId = EQUIPMENT_ID_PREFIX + getNextEquipmentId().toString();
+        String systemName = "第三方设备_" + systemId;
+
+        // 适配第三方设备
+        Equipment adaptedEquipment = adapter.adapt(thirdPartyDevice, systemId, systemName);
+        if (adaptedEquipment == null) {
+            System.out.println("设备适配失败");
+            return null;
+        }
+
+        // 将适配后的设备添加到系统
+        equipments.put(systemId, adaptedEquipment);
+        System.out.println("第三方设备已集成：" + systemName);
+        return systemId;
+    }
+
+    /**
+     * 查找兼容的设备适配器
+     * @param deviceType 设备类型
+     * @return 兼容的适配器
+     */
+    private DeviceAdapter findCompatibleAdapter(String deviceType) {
+        for (DeviceAdapter adapter : deviceAdapters.values()) {
+            if (adapter.isCompatible(deviceType)) {
+                return adapter;
+            }
+        }
+        return null;
+    }
+
+
 
     /**
      * 语音指令解析和执行
@@ -227,6 +294,37 @@ public class SmartHomeControlSystem {
         } else if (action.equals("关闭")) {
             room.stop();
         }
+    }
+
+     /**
+     * 添加默认装饰器
+     */
+    public void addDefaultDecorator(String decoratorType,EquipmentDecorator equipmentDecorator) {
+        equipmentDecorators.put(decoratorType, equipmentDecorator);
+    }
+
+    /**
+     * 对设备进行装饰
+     */
+     public void decorateEquipment(String equipmentId,String decoratorType) {
+        Equipment equipment = equipments.get(equipmentId);
+        if (equipment != null) {
+            EquipmentDecorator decorator = equipmentDecorators.get(decoratorType);
+            if (decorator != null) {
+                EquipmentDecorator decoratedEquipment = decorator.createEquipmentDecorator(equipment);
+                equipments.put(equipment.getId(), decoratedEquipment);
+            } else {
+                System.out.println("未找到装饰器类型：" + decoratorType);
+            }
+        } else {
+            System.out.println("未找到设备ID：" + equipmentId);
+        }
+    }
+
+    /**
+     * 设置自动化功能
+     */
+     public void setAutomation() {
     }
 
     /**

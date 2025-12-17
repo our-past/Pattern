@@ -1,4 +1,4 @@
-package room_fyk;
+package room;
 
 public class RoomConstants {
         public static final String DEFAULT_ROOM = "默认房间";

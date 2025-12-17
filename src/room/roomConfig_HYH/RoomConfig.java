@@ -1,23 +1,19 @@
-package room_fyk.roomConfig;
+package room.roomConfig_HYH;
 
-import room_fyk.Room;
+import room.Room;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * 房间配置类
+ * 用于存储和管理房间的配置信息
+ *
+ * 实现第6个功能，在这个类上写完整，然后要多写一个bedroomConfig类，用于存储和管理卧室的配置信息，并且基础这个类实现状态模式
+ */
 public class RoomConfig {
     private String id;
     private String name;
     private String description;
-
-    private final Map<String,Object> properties = new HashMap<>();
-
-    // 设备配置常量
-    public static final String PROP_TEMPERATURE = "temperature";
-    public static final String PROP_LIGHT_BRIGHTNESS = "lightBrightness";
-    public static final String PROP_CURTAIN_POSITION = "curtainPosition";
-    public static final String PROP_HUMIDITY = "humidity";
-    public static final String PROP_AIR_CONDITIONER_MODE = "airConditionerMode";
 
     /**
      * 房间配置构造函数
@@ -35,15 +31,11 @@ public class RoomConfig {
      * 初始化默认配置属性
      */
     protected void initDefaultProperties(){
-        setProperty(PROP_TEMPERATURE, 22.0);
-        setProperty(PROP_LIGHT_BRIGHTNESS, 50);
-        setProperty(PROP_CURTAIN_POSITION, 0.5);
-        setProperty(PROP_HUMIDITY, 50);
-        setProperty(PROP_AIR_CONDITIONER_MODE, "cool");
     }
 
     /**
      * 房间配置改变
+     * 需要写,适配Room类的方法
      * @param room 房间
      */
     public void changeRoomConfig(Room room){
@@ -59,12 +51,10 @@ public class RoomConfig {
 
     /**
      * 复用(创建新的房间配置副本)
+     * 需要写一个新的构造函数，用于创建新的房间配置副本
      */
     public RoomConfig createCopy(String newId,String newName){
-        RoomConfig copy = new RoomConfig(newId, newName);
-        copy.properties.putAll(this.properties);
-        copy.description = this.description;
-        return copy;
+        return null;
     }
 
 
@@ -109,29 +99,6 @@ public class RoomConfig {
      */
     public String getDescription() {
         return description;
-    }
-
-     /**
-     * 房间配置设置属性值
-     * @param key 属性键
-     * @param value 属性值
-     */
-    public <T> void setProperty(String key, T value) {
-        properties.put(key, value);
-    }
-
-     /**
-     * 房间配置获取属性值
-     * @param key 属性键
-     * @return 属性值
-     */
-     @SuppressWarnings("unchecked")
-    public <T> T getProperty(String key) {
-        return (T) properties.get(key);
-    }
-
-    public Map<String,Object> getProperties(){
-        return properties;
     }
 
 }

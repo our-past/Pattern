@@ -1,8 +1,6 @@
-package room_fyk.factory;
+package room.factory;
 
-import equipment.Equipment;
-import equipment.factory.EquipmentFactory;
-import room_fyk.Room;
+import room.Room;
 import utils.ReflectionUtils;
 
 import java.io.IOException;
@@ -31,7 +29,7 @@ public class RoomFactory {
     static {
         try {
             // 扫描room_fyk包下的所有类
-            List<Class<?>> allClasses = ReflectionUtils.scanClasses("room_fyk");
+            List<Class<?>> allClasses = ReflectionUtils.scanClasses("room");
 
             // 过滤出Room的直接或间接子类
             for (Class<?> clazz : allClasses) {

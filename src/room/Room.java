@@ -1,7 +1,7 @@
-package room_fyk;
+package room;
 
 import equipment.Equipment;
-import room_fyk.roomConfig.RoomConfig;
+import room.roomConfig_HYH.RoomConfig;
 
 import java.util.HashMap;
 
