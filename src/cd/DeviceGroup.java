@@ -1,6 +1,6 @@
 package cd;
-import equipment.HomeAppliances;
-import equipment.Equipment;
+import equipment_fyk.HomeAppliances;
+import equipment_fyk.Equipment;
 import java.util.ArrayList;
 import java.util.List;
 
