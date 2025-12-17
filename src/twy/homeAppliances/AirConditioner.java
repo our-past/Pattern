@@ -12,6 +12,7 @@ public class AirConditioner extends Equipment implements HomeAppliances {
         System.out.println(" AirConditioner selfCheck");
     }
 
+    //
     @Override
     public void register() {
         System.out.println(" AirConditioner register");
