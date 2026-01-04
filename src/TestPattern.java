@@ -1,7 +1,7 @@
 
 import cd.DeviceGroup;
-import equipment.Equipment;
-import equipment.EquipmentConstants;
+import equipment_fyk.Equipment;
+import equipment_fyk.EquipmentConstants;
 import room.RoomConstants;
 import system_FYK.SmartHomeControlSystem;
 

@@ -1,22 +1,23 @@
-package system_FYK;
+package twy.ten;
 
 import cd.DeviceGroup;
 import common.LangDetectFormatRegexConstants;
 import equipment_fyk.Equipment;
 import equipment_fyk.adapter_CD.DeviceAdapter;
 import equipment_fyk.decorator_HYH.EquipmentDecorator;
+import equipment_fyk.factory.EquipmentFactory;
 import room.Room;
 import room.factory.RoomFactory;
 import room.roomConfig_HYH.RoomConfig;
-import equipment_fyk.factory.EquipmentFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static system_FYK.SystemConstants.*;
 import static common.LanguageTypeConstants.*;
+import static system_FYK.SystemConstants.EQUIPMENT_ID_PREFIX;
+import static system_FYK.SystemConstants.ROOM_GROUP_ID_PREFIX;
 
 /**
  * 智能家居中央控制系统
@@ -33,19 +34,17 @@ public class SmartHomeControlSystem {
     private Integer nextEquipmentId = 1;
     // 设备分类管理
     private final Map<String, DeviceGroup> deviceGroups = new HashMap<>();
-    private  Integer nextDeviceGroupId = 1;
+    private Integer nextDeviceGroupId = 1;
     // 房间分类管理
     private final Map<String, Room> roomGroups = new HashMap<>();
-    private  Integer nextRoomGroupId = 1;
+    private Integer nextRoomGroupId = 1;
     // 房间配置管理
     private final Map<String, RoomConfig> roomConfigs = new HashMap<>();
-    private  Integer nextRoomConfigId = 1;
+    private Integer nextRoomConfigId = 1;
     // 设备适配器管理
     private final Map<String, DeviceAdapter> deviceAdapters = new HashMap<>();
     // 设备装饰器管理
     private final Map<String, EquipmentDecorator> equipmentDecorators = new HashMap<>();
-
-
 
     public SmartHomeControlSystem() {
     }
@@ -67,7 +66,7 @@ public class SmartHomeControlSystem {
     /**
      * 添加设备到系统
      */
-    public String addEquipment(String name,String type) {
+    public String addEquipment(String name, String type) {
         String id = EQUIPMENT_ID_PREFIX + getNextEquipmentId().toString();
         Equipment equipment = equipmentFactory.createEquipment(type, id, name);
         equipments.put(id, equipment);
@@ -78,18 +77,15 @@ public class SmartHomeControlSystem {
     /**
      * 添加设备到指定类型组
      */
-    public String addEquipmentToGroup(String equipmentId,String groupName) {
-        // 如果设备不存在
+    public String addEquipmentToGroup(String equipmentId, String groupName) {
         if (!equipments.containsKey(equipmentId)) {
             System.out.println("该设备不存在，无法添加到设备组。请先添加设备。");
             return null;
         }
-        // 如果类型组不存在，创建新的设备组
         if (!deviceGroups.containsKey(groupName)) {
             System.out.println("该设备组不存在，现在帮您添加到系统中");
             addEquipmentGroup(groupName, new DeviceGroup(groupName));
         }
-        // 添加设备到对应类型组
         deviceGroups.get(groupName).addComponent(equipments.get(equipmentId));
         System.out.println("设备已添加到设备组：" + groupName);
         return groupName;
@@ -104,24 +100,24 @@ public class SmartHomeControlSystem {
         return groupName;
     }
 
-     /**
+    /**
      * 添加房间到系统
      */
-    public String addRoom(String roomName,String roomType) {
+    public String addRoom(String roomName, String roomType) {
         String roomId = ROOM_GROUP_ID_PREFIX + getNextRoomGroupId().toString();
-        Room room = roomFactory.createRoom(roomType,roomId, roomName);
+        Room room = roomFactory.createRoom(roomType, roomId, roomName);
         roomGroups.put(roomId, room);
         System.out.println("房间已添加：" + roomName);
         return roomId;
     }
 
     public void addEquipmentToRoom(String roomId, String equipmentId) {
-        if(!equipments.containsKey(equipmentId)) {
+        if (!equipments.containsKey(equipmentId)) {
             System.out.println("该设备不存在，无法添加到房间。请先添加设备。");
             return;
         }
         if (!roomGroups.containsKey(roomId)) {
-            System.out.println("房间不存在：" + roomId+"无法添加设备，请先添加房间");
+            System.out.println("房间不存在：" + roomId + "无法添加设备，请先添加房间");
             return;
         }
         roomGroups.get(roomId).addEquipment(equipments.get(equipmentId));
@@ -130,7 +126,6 @@ public class SmartHomeControlSystem {
 
     /**
      * 注册设备适配器
-     * @param adapter 设备适配器
      */
     public void registerDeviceAdapter(DeviceAdapter adapter) {
         deviceAdapters.put(adapter.getClass().getSimpleName(), adapter);
@@ -139,30 +134,20 @@ public class SmartHomeControlSystem {
 
     /**
      * 集成第三方设备
-     * @param thirdPartyDevice 第三方设备实例
-     * @param deviceType 设备类型
-     * @return 系统分配的设备ID
      */
     public String integrateThirdPartyDevice(Object thirdPartyDevice, String deviceType) {
-        // 查找兼容的适配器
         DeviceAdapter adapter = findCompatibleAdapter(deviceType);
         if (adapter == null) {
             System.out.println("未找到兼容的设备适配器：" + deviceType);
             return null;
         }
-
-        // 生成系统设备ID和名称
         String systemId = EQUIPMENT_ID_PREFIX + getNextEquipmentId().toString();
         String systemName = "第三方设备_" + systemId;
-
-        // 适配第三方设备
         Equipment adaptedEquipment = adapter.adapt(thirdPartyDevice, systemId, systemName);
         if (adaptedEquipment == null) {
             System.out.println("设备适配失败");
             return null;
         }
-
-        // 将适配后的设备添加到系统
         equipments.put(systemId, adaptedEquipment);
         System.out.println("第三方设备已集成：" + systemName);
         return systemId;
@@ -170,8 +155,6 @@ public class SmartHomeControlSystem {
 
     /**
      * 查找兼容的设备适配器
-     * @param deviceType 设备类型
-     * @return 兼容的适配器
      */
     private DeviceAdapter findCompatibleAdapter(String deviceType) {
         for (DeviceAdapter adapter : deviceAdapters.values()) {
@@ -182,19 +165,13 @@ public class SmartHomeControlSystem {
         return null;
     }
 
-
-
     /**
      * 语音指令解析和执行
      */
     public void processVoiceCommand(String voiceCommand) {
         System.out.println("收到语音指令：" + voiceCommand);
-
-        // 解析语音指令
         Command command = parseVoiceCommand(voiceCommand);
-
         if (command != null) {
-            // 执行指令
             executeCommand(command);
         } else {
             System.out.println("无法识别的语音指令：" + voiceCommand);
@@ -205,26 +182,20 @@ public class SmartHomeControlSystem {
      * 解析语音指令
      */
     private Command parseVoiceCommand(String voiceCommand) {
-        // 定义指令模式
         Pattern pattern1 = Pattern.compile(LangDetectFormatRegexConstants.VOICE_COMMAND_FORMAT_REGEX);
         Matcher matcher1 = pattern1.matcher(voiceCommand);
-
         if (matcher1.find()) {
             String action = matcher1.group(1);
             String room = matcher1.group(2);
             String deviceType = matcher1.group(3);
-
-            // 转换设备类型为系统内部类型
             String systemRoom = mapRoomType(room);
             String systemType = mapDeviceType(deviceType);
-
             return new Command(action, systemType, systemRoom);
         }
-
         return null;
     }
 
-    private String mapRoomType(String roomType){
+    private String mapRoomType(String roomType) {
         return switch (roomType) {
             case "所有房间", "所有" -> TYPE_ALL_ROOM;
             case "卧室" -> TYPE_BEDROOM;
@@ -253,19 +224,15 @@ public class SmartHomeControlSystem {
      */
     private void executeCommand(Command command) {
         System.out.println("执行指令：" + command.action + " " + (command.room.equals(TYPE_ALL_ROOM) ? "所有房间" : command.room) + "的" + command.deviceType);
-
-        if (command.deviceType.equals(TYPE_ALL_EQUIPMENT)&&command.room.equals(TYPE_ALL_ROOM)) {
-            // 操作所有设备
+        if (command.deviceType.equals(TYPE_ALL_EQUIPMENT) && command.room.equals(TYPE_ALL_ROOM)) {
             for (Equipment equipment : equipments.values()) {
                 executeAction(equipment, command.action);
             }
-        }else if (command.room.equals(TYPE_ALL_ROOM)) {
-            // 操作所有房间的特定类型设备
+        } else if (command.room.equals(TYPE_ALL_ROOM)) {
             for (Room room : roomGroups.values()) {
                 executeAction(room, command.action);
             }
         } else {
-            // 操作特定类型的所有设备
             DeviceGroup group = deviceGroups.get(command.deviceType);
             if (group != null) {
                 executeAction(group, command.action);
@@ -285,6 +252,7 @@ public class SmartHomeControlSystem {
             equipment.stop();
         }
     }
+
     /**
      * 执行具体操作
      */
@@ -296,17 +264,72 @@ public class SmartHomeControlSystem {
         }
     }
 
-     /**
+    // ======================== 新增代码开始（仅4个方法） ========================
+    /**
+     * 【新增】执行设备组操作（补充原有逻辑缺失）
+     */
+    private void executeAction(DeviceGroup group, String action) {
+        if (action.equals("打开")) {
+            group.start();
+        } else if (action.equals("关闭")) {
+            group.stop();
+        }
+    }
+
+    /**
+     * 【新增】客户端控制单个设备（外观模式）
+     */
+    public void controlSingleEquipment(String equipmentId, String action) {
+        System.out.println("\n===== 【客户端控制】开始控制单个设备 =====");
+        if (!equipments.containsKey(equipmentId)) {
+            System.out.println("错误：设备ID[" + equipmentId + "]不存在");
+            return;
+        }
+        Equipment equipment = equipments.get(equipmentId);
+        executeAction(equipment, action);
+        System.out.println("===== 【客户端控制】单个设备控制完成 =====\n");
+    }
+
+    /**
+     * 【新增】客户端控制设备组（外观模式）
+     */
+    public void controlEquipmentGroup(String groupName, String action) {
+        System.out.println("\n===== 【客户端控制】开始控制设备组 =====");
+        if (!deviceGroups.containsKey(groupName)) {
+            System.out.println("错误：设备组[" + groupName + "]不存在");
+            return;
+        }
+        DeviceGroup group = deviceGroups.get(groupName);
+        executeAction(group, action);
+        System.out.println("===== 【客户端控制】设备组控制完成 =====\n");
+    }
+
+    /**
+     * 【新增】客户端控制房间内所有设备（外观模式）
+     */
+    public void controlRoomAllEquipment(String roomId, String action) {
+        System.out.println("\n===== 【客户端控制】开始控制房间设备 =====");
+        if (!roomGroups.containsKey(roomId)) {
+            System.out.println("错误：房间ID[" + roomId + "]不存在");
+            return;
+        }
+        Room room = roomGroups.get(roomId);
+        executeAction(room, action);
+        System.out.println("===== 【客户端控制】房间设备控制完成 =====\n");
+    }
+    // ======================== 新增代码结束 ========================
+
+    /**
      * 添加默认装饰器
      */
-    public void addDefaultDecorator(String decoratorType,EquipmentDecorator equipmentDecorator) {
+    public void addDefaultDecorator(String decoratorType, EquipmentDecorator equipmentDecorator) {
         equipmentDecorators.put(decoratorType, equipmentDecorator);
     }
 
     /**
      * 对设备进行装饰
      */
-     public void decorateEquipment(String equipmentId,String decoratorType) {
+    public void decorateEquipment(String equipmentId, String decoratorType) {
         Equipment equipment = equipments.get(equipmentId);
         if (equipment != null) {
             EquipmentDecorator decorator = equipmentDecorators.get(decoratorType);
@@ -324,12 +347,11 @@ public class SmartHomeControlSystem {
     /**
      * 设置自动化功能
      */
-     public void setAutomation() {
+    public void setAutomation() {
     }
 
     /**
      * 获取下一个设备ID
-     * @return 下一个设备ID
      */
     public Integer getNextEquipmentId() {
         return nextEquipmentId++;
@@ -337,21 +359,20 @@ public class SmartHomeControlSystem {
 
     /**
      * 获取下一个设备组ID
-     * @return 下一个设备组ID
      */
     public Integer getNextDeviceGroupId() {
         return nextDeviceGroupId++;
     }
+
     /**
      * 获取下一个房间组ID
-     * @return 下一个房间组ID
      */
     public Integer getNextRoomGroupId() {
         return nextRoomGroupId++;
     }
+
     /**
      * 获取下一个房间配置ID
-     * @return 下一个房间配置ID
      */
     public Integer getNextRoomConfigId() {
         return nextRoomConfigId++;
@@ -359,33 +380,29 @@ public class SmartHomeControlSystem {
 
     /**
      * 获取所有设备
-     * @return 所有设备映射
      */
-    public Map<String,Equipment> getEquipments() {
+    public Map<String, Equipment> getEquipments() {
         return equipments;
     }
 
-     /**
+    /**
      * 获取所有设备组
-     * @return 所有设备组映射
      */
-     public Map<String,DeviceGroup> getDeviceGroups() {
+    public Map<String, DeviceGroup> getDeviceGroups() {
         return deviceGroups;
     }
 
     /**
      * 获取所有房间组
-     * @return 所有房间组映射
      */
-    public Map<String,Room> getRoomGroups() {
+    public Map<String, Room> getRoomGroups() {
         return roomGroups;
     }
 
     /**
      * 获取所有房间配置
-     * @return 所有房间配置映射
      */
-    public Map<String,RoomConfig> getRoomConfigs() {
+    public Map<String, RoomConfig> getRoomConfigs() {
         return roomConfigs;
     }
 
@@ -395,7 +412,7 @@ public class SmartHomeControlSystem {
     private static class Command {
         String action;      // 操作：打开/关闭
         String deviceType;  // 设备类型
-        String room;      // 房间类型
+        String room;        // 房间类型
 
         Command(String action, String deviceType, String room) {
             this.action = action;
