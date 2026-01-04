@@ -40,9 +40,9 @@ public class AirConditioner extends Equipment implements HomeAppliances {
     }
     @Override
     public void executeCommand(String command){
-        if (command.equals("open")) {
+        if ("打开".equals(command)) {
             System.out.println("[空调-" + getId() + "] 已开启");
-        } else if (command.equals("close")) {
+        } else if ("关闭".equals(command)) {
             System.out.println("[空调-" + getId() + "] 已关闭");
         }
     }

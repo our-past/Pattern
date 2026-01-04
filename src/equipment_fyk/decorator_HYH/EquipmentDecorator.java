@@ -2,6 +2,7 @@ package equipment_fyk.decorator_HYH;
 
 import equipment_fyk.Equipment;
 
+
 /**
  * 设备装饰器抽象类
  * 使用装饰模式为设备动态添加额外功能
@@ -31,6 +32,8 @@ public abstract class EquipmentDecorator extends Equipment {
     }
 
     abstract public EquipmentDecorator createEquipmentDecorator(Equipment decoratedEquipment);
+
+
 
     @Override
     public void selfCheck() {

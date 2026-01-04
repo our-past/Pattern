@@ -48,9 +48,12 @@ public class ElectricWindow extends Equipment implements ControllableDevice {
     }
     @Override
     public void executeCommand(String command){
-        if (command.equals("CLOSE")) {
+        if ("打开".equals(command)) {
             setProperty("position", 0);
             System.out.println("[电动窗户-" + getId()+":"+getName() + "] 已关闭");
+        }else if("关闭".equals(command)) {
+            setProperty("position", 0);
+            System.out.println("[电动窗户-" + getId()+":"+getName() + "] 已开启");
         }
     }
 

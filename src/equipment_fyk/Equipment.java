@@ -4,8 +4,12 @@ package equipment_fyk;
 import equipment_fyk.State.GreenState;
 import equipment_fyk.State.RedState;
 import equipment_fyk.State.State;
+import hyh.observer.DeviceObserver;
+import hyh.observer.DeviceSubject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 设备接口
@@ -20,6 +24,7 @@ public abstract class Equipment {
      * 设备名称
      */
     private String name;
+
     /**
      * 设备状态
      */
@@ -126,4 +131,12 @@ public abstract class Equipment {
     public  void setProperty(String property, Object value) {
         properties.put(property, value);
     }
+
+    public String getDescription() {
+        // 可根据实际需求实现，例如返回设备ID、名称和状态的组合描述
+        return "设备ID: " + id + ", 设备名称: " + name + ", 设备状态: " + (state != null ? state.getClass().getSimpleName() : "未设置");
+    }
 }
+
+
+

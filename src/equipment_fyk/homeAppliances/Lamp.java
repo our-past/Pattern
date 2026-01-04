@@ -39,6 +39,10 @@ public class Lamp extends Equipment implements HomeAppliances {
     }
     @Override
     public void executeCommand(String command){
-
+        if ("打开".equals(command)) {
+            System.out.println("[灯光-" + getName() + "] 已打开");
+        } else if ("关闭".equals(command)) {
+            System.out.println("[灯光-" + getName() + "] 已关闭");
+        }
     }
 }

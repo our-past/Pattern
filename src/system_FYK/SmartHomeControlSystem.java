@@ -5,7 +5,6 @@ import equipment_fyk.ControllableDevice;
 import equipment_fyk.Equipment;
 import equipment_fyk.adapter_CD.DeviceAdapter;
 import equipment_fyk.autoRule.DeviceControlAction;
-import equipment_fyk.autoRule.RuleAction;
 import equipment_fyk.autoRule.RuleCondition;
 import equipment_fyk.autoRule.rule;
 import equipment_fyk.decorator_HYH.EquipmentDecorator;
@@ -512,4 +511,29 @@ public class SmartHomeControlSystem {
             this.room = room;
         }
     }
+
+    /**
+     * 为房间设置场景模式
+     */
+    public void setRoomScene(String roomId, String sceneName) {
+        if (roomGroups.containsKey(roomId)) {
+            roomGroups.get(roomId).setScene(sceneName);
+        } else {
+            System.out.println("房间不存在: " + roomId);
+        }
+    }
+
+    /**
+     * 复制场景模式到其他房间
+     */
+    public void copyScenes(String sourceRoomId, String targetRoomId) {
+        if (roomGroups.containsKey(sourceRoomId) && roomGroups.containsKey(targetRoomId)) {
+            Room sourceRoom = roomGroups.get(sourceRoomId);
+            Room targetRoom = roomGroups.get(targetRoomId);
+            targetRoom.copyScenesFrom(sourceRoom);
+        } else {
+            System.out.println("源房间或目标房间不存在");
+        }
+    }
+
 }
