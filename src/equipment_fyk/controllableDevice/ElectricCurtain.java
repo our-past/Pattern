@@ -2,6 +2,7 @@ package equipment_fyk.controllableDevice;
 
 import equipment_fyk.ControllableDevice;
 import equipment_fyk.Equipment;
+import equipment_fyk.autoRule.rule;
 
 /**
  * 智能窗帘
@@ -12,6 +13,8 @@ public class ElectricCurtain extends Equipment implements ControllableDevice {
      */
     public ElectricCurtain() {
         super();
+        setProperty("type", this.getClass().getSimpleName());
+        setProperty("position",100 );
     }
     /**
      * 智能窗帘构造函数
@@ -20,6 +23,7 @@ public class ElectricCurtain extends Equipment implements ControllableDevice {
      */
     public ElectricCurtain(String id,String name) {
         super(id,name);
+        setProperty("type", this.getClass().getSimpleName());
     }
     @Override
     public void selfCheck() {
@@ -33,5 +37,24 @@ public class ElectricCurtain extends Equipment implements ControllableDevice {
     public void activate() {
         System.out.println(" ElectricCurtain activate");
     }
+    @Override
+    public void executeCommand(String command){
+        if (command.equals("close")) {
+            setProperty("position", 0);
+            System.out.println("[窗帘-" + getId()+":"+getName() + "] 已关闭");
+        }
+    }
 
+    @Override
+    public void addAutoRule(rule r, Equipment e) {
+        System.out.println(" ElectricCurtain addAutoRule");
+    }
+    @Override
+    public void removeAutoRule(rule r) {
+        System.out.println(" ElectricCurtain removeAutoRule");
+    }
+    @Override
+    public void checkAuto() {
+        System.out.println(" ElectricCurtain checkAuto");
+    }
 }

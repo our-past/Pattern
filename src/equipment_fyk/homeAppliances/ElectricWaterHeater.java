@@ -12,6 +12,7 @@ public class ElectricWaterHeater extends Equipment implements HomeAppliances {
      */
     public ElectricWaterHeater() {
         super();
+        setProperty("type", this.getClass().getSimpleName());
     }
     /**
      * 热水器构造函数
@@ -20,6 +21,7 @@ public class ElectricWaterHeater extends Equipment implements HomeAppliances {
      */
     public ElectricWaterHeater(String id,String name) {
         super(id,name);
+        setProperty("type", this.getClass().getSimpleName());
     }
     @Override
     public void selfCheck() {
@@ -34,5 +36,9 @@ public class ElectricWaterHeater extends Equipment implements HomeAppliances {
     @Override
     public void activate() {
         System.out.println(" ElectricWaterHeater activate");
+    }
+    @Override
+    public void executeCommand(String command){
+
     }
 }

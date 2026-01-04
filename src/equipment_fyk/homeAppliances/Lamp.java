@@ -12,6 +12,7 @@ public class Lamp extends Equipment implements HomeAppliances {
      */
     public Lamp() {
         super();
+        setProperty("type", this.getClass().getSimpleName());
     }
     /**
      * 灯构造函数
@@ -20,6 +21,7 @@ public class Lamp extends Equipment implements HomeAppliances {
      */
     public Lamp(String id,String name) {
         super(id,name);
+        setProperty("type", this.getClass().getSimpleName());
     }
     @Override
     public void selfCheck() {
@@ -34,5 +36,9 @@ public class Lamp extends Equipment implements HomeAppliances {
     @Override
     public void activate() {
         System.out.println(" Lamp activate");
+    }
+    @Override
+    public void executeCommand(String command){
+
     }
 }

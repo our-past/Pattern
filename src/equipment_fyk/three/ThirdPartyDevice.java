@@ -1,17 +1,10 @@
-package equipment_fyk;
-
+package equipment_fyk.three;
 
 import equipment_fyk.State.GreenState;
 import equipment_fyk.State.RedState;
 import equipment_fyk.State.State;
 
-import java.util.HashMap;
-
-/**
- * 设备接口
- * 负责人：ourPast
- */
-public abstract class Equipment {
+public abstract class ThirdPartyDevice {
     /**
      * 设备ID
      */
@@ -25,19 +18,14 @@ public abstract class Equipment {
      */
     private State state;
 
-    private HashMap<String,Object> properties= new HashMap<>();
-
-    public Equipment() {
+    public ThirdPartyDevice() {
     }
 
-    public Equipment(String id, String name) {
+    public ThirdPartyDevice(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    /**
-     * 自检
-     */
     public abstract void selfCheck();
     /**
      * 注册
@@ -47,14 +35,7 @@ public abstract class Equipment {
      * 激活
      */
     public abstract void activate();
-    /**
-     * 命令执行
-     */
-    public abstract void executeCommand(String command);
 
-     /**
-     * 特定设备启动
-     */
     public void startSelf(){
 
     }
@@ -69,7 +50,6 @@ public abstract class Equipment {
      * 设备启动
      */
     public final void start() {
-        System.out.println("设备/设备组："+ this.getName() +"打开");
         selfCheck();
         register();
         activate();
@@ -81,7 +61,6 @@ public abstract class Equipment {
      * 设备关闭
      */
     public final void stop() {
-        System.out.println("设备/设备组："+ this.getName() +"关闭");
         stopSelf();
         setState(new RedState());
     }
@@ -110,20 +89,5 @@ public abstract class Equipment {
     }
     public State getState() {
         return state;
-    }
-
-    public void setProperties(HashMap<String,Object> properties) {
-        this.properties = properties;
-    }
-    public HashMap<String,Object> getProperties() {
-        return properties;
-    }
-
-    public Object getProperty(String property) {
-        return properties.get(property);
-    }
-
-    public  void setProperty(String property, Object value) {
-        properties.put(property, value);
     }
 }

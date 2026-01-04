@@ -2,6 +2,7 @@ package equipment_fyk.controllableDevice;
 
 import equipment_fyk.ControllableDevice;
 import equipment_fyk.Equipment;
+import equipment_fyk.autoRule.rule;
 
 /**
  * 智能音箱
@@ -12,6 +13,7 @@ public class SmartSpeaker extends Equipment implements ControllableDevice {
      */
     public SmartSpeaker() {
         super();
+        setProperty("type", this.getClass().getSimpleName());
     }
     /**
      * 智能音箱构造函数
@@ -20,6 +22,7 @@ public class SmartSpeaker extends Equipment implements ControllableDevice {
      */
     public SmartSpeaker(String id,String name) {
         super(id,name);
+        setProperty("type", this.getClass().getSimpleName());
     }
     @Override
     public void selfCheck() {
@@ -34,6 +37,22 @@ public class SmartSpeaker extends Equipment implements ControllableDevice {
     @Override
     public void activate() {
         System.out.println(" SmartSpeaker activate");
+    }
+    @Override
+    public void executeCommand(String command){
+
+    }
+    @Override
+    public void addAutoRule(rule r, Equipment e) {
+        System.out.println(" SmartSpeaker addAutoRule");
+    }
+    @Override
+    public void removeAutoRule(rule r) {
+        System.out.println(" SmartSpeaker removeAutoRule");
+    }
+    @Override
+    public void checkAuto() {
+        System.out.println(" SmartSpeaker checkAuto");
     }
 
 }

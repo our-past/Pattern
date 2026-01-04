@@ -27,6 +27,7 @@ public class Refrigerator extends Equipment implements HomeAppliances {
         humidityType = "百分比";
         temperature = 0;
         humidity = 0;
+        setProperty("type", this.getClass().getSimpleName());
     }
     /**
      * 冰箱构造函数
@@ -39,6 +40,7 @@ public class Refrigerator extends Equipment implements HomeAppliances {
         humidityType = "百分比";
         temperature = 0;
         humidity = 0;
+        setProperty("type", this.getClass().getSimpleName());
     }
     @Override
     public void selfCheck() {
@@ -53,5 +55,9 @@ public class Refrigerator extends Equipment implements HomeAppliances {
     @Override
     public void activate() {
         System.out.println(" Refrigerator activate");
+    }
+    @Override
+    public void executeCommand(String command){
+
     }
 }

@@ -12,6 +12,7 @@ public class ElectricCooktop extends Equipment implements HomeAppliances {
      */
     public ElectricCooktop() {
         super();
+        setProperty("type", this.getClass().getSimpleName());
     }
     /**
      * 智能电饭煲构造函数
@@ -20,6 +21,7 @@ public class ElectricCooktop extends Equipment implements HomeAppliances {
      */
     public ElectricCooktop(String id,String name) {
         super(id,name);
+        setProperty("type", this.getClass().getSimpleName());
     }
     @Override
     public void selfCheck() {
@@ -34,5 +36,9 @@ public class ElectricCooktop extends Equipment implements HomeAppliances {
     @Override
     public void activate() {
         System.out.println(" ElectricCooktop activate");
+    }
+    @Override
+    public void executeCommand(String command){
+
     }
 }

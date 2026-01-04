@@ -12,6 +12,7 @@ public class AirConditioner extends Equipment implements HomeAppliances {
      */
     public AirConditioner() {
         super();
+        setProperty("type", this.getClass().getSimpleName());
     }
     /**
      * 空调构造函数
@@ -20,6 +21,8 @@ public class AirConditioner extends Equipment implements HomeAppliances {
      */
     public AirConditioner(String id,String name) {
         super(id,name);
+        setProperty("temperature", 0.0);
+        setProperty("type", this.getClass().getSimpleName());
     }
     @Override
     public void selfCheck() {
@@ -34,5 +37,13 @@ public class AirConditioner extends Equipment implements HomeAppliances {
     @Override
     public void activate() {
         System.out.println(" AirConditioner activate");
+    }
+    @Override
+    public void executeCommand(String command){
+        if (command.equals("open")) {
+            System.out.println("[空调-" + getId() + "] 已开启");
+        } else if (command.equals("close")) {
+            System.out.println("[空调-" + getId() + "] 已关闭");
+        }
     }
 }

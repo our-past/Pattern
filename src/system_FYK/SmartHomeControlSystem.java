@@ -1,14 +1,21 @@
 package system_FYK;
 
-import cd.DeviceGroup;
 import common.LangDetectFormatRegexConstants;
+import equipment_fyk.ControllableDevice;
 import equipment_fyk.Equipment;
 import equipment_fyk.adapter_CD.DeviceAdapter;
+import equipment_fyk.autoRule.DeviceControlAction;
+import equipment_fyk.autoRule.RuleAction;
+import equipment_fyk.autoRule.RuleCondition;
+import equipment_fyk.autoRule.rule;
 import equipment_fyk.decorator_HYH.EquipmentDecorator;
+import equipment_fyk.group.DeviceGroup;
 import room.Room;
 import room.factory.RoomFactory;
 import room.roomConfig_HYH.RoomConfig;
 import equipment_fyk.factory.EquipmentFactory;
+import strategy.Strategy;
+import strategy.StrategyContext;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,8 +51,8 @@ public class SmartHomeControlSystem {
     private final Map<String, DeviceAdapter> deviceAdapters = new HashMap<>();
     // 设备装饰器管理
     private final Map<String, EquipmentDecorator> equipmentDecorators = new HashMap<>();
-
-
+    // 策略模式环境管理
+    private final Map<String, StrategyContext> strategyContexts = new HashMap<>();
 
     public SmartHomeControlSystem() {
     }
@@ -183,7 +190,6 @@ public class SmartHomeControlSystem {
     }
 
 
-
     /**
      * 语音指令解析和执行
      */
@@ -249,6 +255,47 @@ public class SmartHomeControlSystem {
     }
 
     /**
+     * 【新增】客户端控制单个设备（外观模式）
+     */
+    public void controlSingleEquipment(String equipmentId, String action) {
+        if (!equipments.containsKey(equipmentId)) {
+            System.out.println("错误：设备ID[" + equipmentId + "]不存在");
+            return;
+        }
+        Equipment equipment = equipments.get(equipmentId);
+        System.out.println("设备："+equipment.getName()+" 执行:"+action);
+        executeAction(equipment, action);
+    }
+
+    /**
+     * 【新增】客户端控制设备组（外观模式）
+     */
+    public void controlEquipmentGroup(String groupName, String action) {
+        System.out.println("\n===== 【客户端控制】开始控制设备组 =====");
+        if (!deviceGroups.containsKey(groupName)) {
+            System.out.println("错误：设备组[" + groupName + "]不存在");
+            return;
+        }
+        DeviceGroup group = deviceGroups.get(groupName);
+        executeAction(group, action);
+        System.out.println("===== 【客户端控制】设备组控制完成 =====\n");
+    }
+
+    /**
+     * 【新增】客户端控制房间内所有设备（外观模式）
+     */
+    public void controlRoomAllEquipment(String roomId, String action) {
+        System.out.println("\n===== 【客户端控制】开始控制房间设备 =====");
+        if (!roomGroups.containsKey(roomId)) {
+            System.out.println("错误：房间ID[" + roomId + "]不存在");
+            return;
+        }
+        Room room = roomGroups.get(roomId);
+        executeAction(room, action);
+        System.out.println("===== 【客户端控制】房间设备控制完成 =====\n");
+    }
+
+    /**
      * 执行指令
      */
     private void executeCommand(Command command) {
@@ -295,6 +342,16 @@ public class SmartHomeControlSystem {
             room.stop();
         }
     }
+    /**
+     * 执行具体操作
+     */
+    private void executeAction(DeviceGroup group, String action) {
+        if (action.equals("打开")) {
+            group.start();
+        } else if (action.equals("关闭")) {
+            group.stop();
+        }
+    }
 
      /**
      * 添加默认装饰器
@@ -324,7 +381,59 @@ public class SmartHomeControlSystem {
     /**
      * 设置自动化功能
      */
-     public void setAutomation() {
+     public void setAutomation(String equipmentId, String autoEquipmentId, String command, RuleCondition ruleCondition) {
+        Equipment equipment = equipments.get(equipmentId);
+        if (equipment != null) {
+            if (equipment instanceof ControllableDevice controllableDevice) {
+                DeviceControlAction deviceControlAction = new DeviceControlAction(command);
+                rule r = new rule( deviceControlAction,ruleCondition);
+                Equipment autoEquipment = equipments.get(autoEquipmentId);
+                if (autoEquipment != null) {
+                    controllableDevice.addAutoRule(r, autoEquipment);
+                } else {
+                    System.out.println("未找到自动设备ID：" + autoEquipmentId);
+                }
+            } else {
+                System.out.println("设备ID：" + equipmentId + " 不是可控制设备");
+            }
+        } else {
+            System.out.println("未找到设备ID：" + equipmentId);
+        }
+    }
+
+    //策略模式添加环境
+     public void addStrategyContext(String contextName, StrategyContext strategyContext) {
+        strategyContexts.put(contextName, strategyContext);
+    }
+
+    //策略模式添加策略
+    public void addStrategy(String contextName, String strategyName, Strategy strategy) {
+        StrategyContext strategyContext = strategyContexts.get(contextName);
+        if (strategyContext != null) {
+            strategyContext.setStrategyInMap(strategyName, strategy);
+        } else {
+            System.out.println("未找到策略环境：" + contextName);
+        }
+    }
+
+    //策略模式设置策略
+     public void setStrategy(String contextName, String strategyName) {
+        StrategyContext strategyContext = strategyContexts.get(contextName);
+        if (strategyContext != null) {
+            strategyContext.getStrategyFromMap(strategyName);
+        } else {
+            System.out.println("未找到策略环境：" + contextName);
+        }
+    }
+
+    //策略模式执行环境
+    public void executeStrategy(String contextName) {
+        StrategyContext strategyContext = strategyContexts.get(contextName);
+        if (strategyContext != null) {
+            strategyContext.executeStrategy();
+        } else {
+            System.out.println("未找到策略环境：" + contextName);
+        }
     }
 
     /**

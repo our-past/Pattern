@@ -21,11 +21,13 @@ public abstract class EquipmentDecorator extends Equipment {
     public EquipmentDecorator(String id, String name) {
         super(id, name);
         this.decoratedEquipment = null;
+        setProperty("type", this.getClass().getSimpleName());
     }
 
     public EquipmentDecorator(Equipment decoratedEquipment) {
         super(decoratedEquipment.getId(), decoratedEquipment.getName());
         this.decoratedEquipment = decoratedEquipment;
+        setProperty("type", this.getClass().getSimpleName());
     }
 
     abstract public EquipmentDecorator createEquipmentDecorator(Equipment decoratedEquipment);

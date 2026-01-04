@@ -2,26 +2,28 @@ package equipment_fyk.controllableDevice;
 
 import equipment_fyk.ControllableDevice;
 import equipment_fyk.Equipment;
+import equipment_fyk.autoRule.rule;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 温度和湿度传感器
  */
 public class TemperatureAndHumiditySensor extends Equipment implements ControllableDevice {
 
-    String temperatureType;
-    String humidityType;
-    double temperature;
-    double humidity;
+    HashMap<rule, Equipment> autoRules = new HashMap<>();
 
     /**
      * 温度和湿度传感器构造函数
      */
     public TemperatureAndHumiditySensor() {
         super();
-        temperatureType = "摄氏度";
-        humidityType = "百分比";
-        temperature = 0.0;
-        humidity = 0.0;
+        setProperty("type", this.getClass().getSimpleName());
+        setProperty("temperatureType", "摄氏度");
+        setProperty("humidityType", "百分比");
+        setProperty("temperature", 0.0);
+        setProperty("humidity", 0.0);
     }
     /**
      * 温度和湿度传感器构造函数
@@ -30,10 +32,11 @@ public class TemperatureAndHumiditySensor extends Equipment implements Controlla
      */
     public TemperatureAndHumiditySensor(String id,String name) {
         super(id,name);
-        temperatureType = "摄氏度";
-        humidityType = "百分比";
-        temperature = 0.0;
-        humidity = 0.0;
+        setProperty("temperatureType", "摄氏度");
+        setProperty("humidityType", "百分比");
+        setProperty("temperature", 0.0);
+        setProperty("humidity", 0.0);
+        setProperty("type", this.getClass().getSimpleName());
     }
 
     @Override
@@ -51,28 +54,37 @@ public class TemperatureAndHumiditySensor extends Equipment implements Controlla
         System.out.println(" TemperatureAndHumiditySensor activate");
     }
 
-    public void setTemperatureType(String temperatureType) {
-        this.temperatureType = temperatureType;
+    @Override
+    public void setProperty(String key, Object value) {
+        super.setProperty(key, value);
+        checkAuto();
     }
-    public String getTemperatureType() {
-        return temperatureType;
+
+    public void addAutoRule(rule r, Equipment device) {
+        autoRules.put(r, device);
+        checkAuto();
     }
-    public void setHumidityType(String humidityType) {
-        this.humidityType = humidityType;
+
+    public void removeAutoRule(rule r) {
+        autoRules.remove(r);
     }
-    public String getHumidityType() {
-        return humidityType;
+
+    @Override
+    public void checkAuto() {
+        for (Map.Entry<rule, Equipment> entry : autoRules.entrySet()) {
+            rule r = entry.getKey();
+            Equipment device = entry.getValue();
+            // 检查规则是否匹配
+            if (r.match(this)) {
+                // 执行规则动作
+                r.execute(device);
+                System.out.println("自动化规则触发: " + r.getClass().getSimpleName());
+            }
+        }
     }
-    public void setTemperature(double temperature) {
-        this.temperature = temperature;
-    }
-    public double getTemperature() {
-        return temperature;
-    }
-    public void setHumidity(double humidity) {
-        this.humidity = humidity;
-    }
-    public double getHumidity() {
-        return humidity;
+
+    @Override
+    public void executeCommand(String command){
+
     }
 }

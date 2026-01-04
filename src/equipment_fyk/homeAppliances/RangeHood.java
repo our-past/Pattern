@@ -12,6 +12,7 @@ public class RangeHood extends Equipment implements HomeAppliances {
      */
     public RangeHood() {
         super();
+        setProperty("type", this.getClass().getSimpleName());
     }
     /**
      * 抽油烟机构造函数
@@ -20,6 +21,7 @@ public class RangeHood extends Equipment implements HomeAppliances {
      */
     public RangeHood(String id,String name) {
         super(id,name);
+        setProperty("type", this.getClass().getSimpleName());
     }
     @Override
     public void selfCheck() {
@@ -34,5 +36,9 @@ public class RangeHood extends Equipment implements HomeAppliances {
     @Override
     public void activate() {
         System.out.println(" RangeHood activate");
+    }
+    @Override
+    public void executeCommand(String command){
+
     }
 }

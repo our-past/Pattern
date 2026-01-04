@@ -3,6 +3,7 @@ package equipment_fyk;
 public class EquipmentConstants {
     // 可控设备类型
     public static final String ALARM = "Alarm";
+    public static final String ELECTRIC_WINDOW = "ElectricWindow";
     public static final String ELECTRIC_CURTAIN = "ElectricCurtain";
     public static final String ELEVATING_CLOTHES_DRYING_RACK = "ElevatingClothesDryingRack";
     public static final String SMART_DOOR_LOCK = "SmartDoorLock";
