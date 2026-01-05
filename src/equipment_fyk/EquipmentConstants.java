@@ -11,7 +11,7 @@ public class EquipmentConstants {
     public static final String SMART_SPEAKER = "SmartSpeaker";
     public static final String SMART_TOILET = "SmartToilet";
     public static final String TEMPERATURE_AND_HUMIDITY_SENSOR = "TemperatureAndHumiditySensor";
-
+    public static final String SMART_SMOKE_SENSOR = "SmartSmokeSensor";
     // 家用电器类型
     public static final String AIR_CONDITIONER = "AirConditioner";
     public static final String ELECTRIC_COOKTOP = "ElectricCooktop";

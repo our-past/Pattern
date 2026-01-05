@@ -2,7 +2,7 @@ package equipment_fyk.controllableDevice;
 
 import equipment_fyk.ControllableDevice;
 import equipment_fyk.Equipment;
-import equipment_fyk.autoRule.rule;
+import equipment_fyk.autoRule_twy.rule;
 
 public class ElectricWindow extends Equipment implements ControllableDevice {
         /**
@@ -44,10 +44,12 @@ public class ElectricWindow extends Equipment implements ControllableDevice {
     }
     @Override
     public void activate() {
+
         System.out.println(" ElectricWindow activate");
     }
     @Override
     public void executeCommand(String command){
+
         if ("打开".equals(command)) {
             setProperty("position", 0);
             System.out.println("[电动窗户-" + getId()+":"+getName() + "] 已关闭");
@@ -59,14 +61,17 @@ public class ElectricWindow extends Equipment implements ControllableDevice {
 
     @Override
     public void addAutoRule(rule r, Equipment e) {
+
         System.out.println(" ElectricWindow addAutoRule");
     }
     @Override
     public void removeAutoRule(rule r) {
+
         System.out.println(" ElectricWindow removeAutoRule");
     }
     @Override
     public void checkAuto() {
+
         System.out.println(" ElectricWindow checkAuto");
     }
 }

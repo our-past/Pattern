@@ -4,12 +4,8 @@ package equipment_fyk;
 import equipment_fyk.State.GreenState;
 import equipment_fyk.State.RedState;
 import equipment_fyk.State.State;
-import hyh.observer.DeviceObserver;
-import hyh.observer.DeviceSubject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * 设备接口
@@ -70,11 +66,8 @@ public abstract class Equipment {
 
     }
 
-    /**
-     * 设备启动
-     */
-    public final void start() {
-        System.out.println("设备/设备组："+ this.getName() +"打开");
+    public final void setUp(){
+        System.out.println("设备/设备组："+ this.getName() +"初始化，接入中央系统");
         selfCheck();
         register();
         activate();
@@ -83,12 +76,19 @@ public abstract class Equipment {
     }
 
     /**
+     * 设备启动
+     */
+    public void start() {
+        System.out.println("设备/设备组："+ this.getName() +"打开");
+        startSelf();
+    }
+
+    /**
      * 设备关闭
      */
     public final void stop() {
         System.out.println("设备/设备组："+ this.getName() +"关闭");
         stopSelf();
-        setState(new RedState());
     }
 
     /**
@@ -133,7 +133,6 @@ public abstract class Equipment {
     }
 
     public String getDescription() {
-        // 可根据实际需求实现，例如返回设备ID、名称和状态的组合描述
         return "设备ID: " + id + ", 设备名称: " + name + ", 设备状态: " + (state != null ? state.getClass().getSimpleName() : "未设置");
     }
 }

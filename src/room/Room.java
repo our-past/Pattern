@@ -1,11 +1,10 @@
 package room;
 
 import equipment_fyk.Equipment;
-import hyh.scene.DayMode;
-import hyh.scene.LivingMode;
-import hyh.scene.RoomSceneState;
-import hyh.scene.SleepMode;
-import room.roomConfig_HYH.RoomConfig;
+import room.roomConfig_HYH.DayMode;
+import room.roomConfig_HYH.LivingMode;
+import room.roomConfig_HYH.RoomSceneState;
+import room.roomConfig_HYH.SleepMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,6 @@ import java.util.List;
 public abstract class Room {
     private String id;
     private String name;
-    private RoomConfig roomConfig;
     private RoomSceneState currentState; // 当前场景状态
     private List<RoomSceneState> supportedScenes = new ArrayList<>(); // 支持的场景集合
 
@@ -85,23 +83,6 @@ public abstract class Room {
         return null;
     }
 
-    /**
-     * 房间改变配置自身(可在子类中重写)
-     * @param roomConfig 房间配置
-     */
-    public void changeRoomConfigSelf(RoomConfig roomConfig) {
-
-    }
-
-    /**
-     * 房间改变配置
-     * @param roomConfig 房间配置
-     */
-    public final void changeRoomConfig(RoomConfig roomConfig) {
-        changeRoomConfigSelf(roomConfig);
-        setRoomConfig(roomConfig);
-        roomConfig.changeRoomConfig(this);
-    }
 
     /**
      * 为房间添加新场景
@@ -178,20 +159,6 @@ public abstract class Room {
         return name;
     }
 
-     /**
-     * 房间设置配置
-     * @param roomConfig 房间配置
-     */
-    public void setRoomConfig(RoomConfig roomConfig) {
-        this.roomConfig = roomConfig;
-    }
-     /**
-     * 房间获取配置
-     * @return 房间配置
-     */
-    public RoomConfig getRoomConfig() {
-        return roomConfig;
-    }
     /**
      * 获取当前场景状态
      * @return 当前场景

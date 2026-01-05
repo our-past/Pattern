@@ -2,13 +2,11 @@ package equipment_fyk.controllableDevice;
 
 import equipment_fyk.ControllableDevice;
 import equipment_fyk.Equipment;
-import equipment_fyk.autoRule.rule;
+import equipment_fyk.autoRule_twy.rule;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 智能闹钟
@@ -68,10 +66,12 @@ public class Alarm extends Equipment implements ControllableDevice {
     }
 
     public void removeAutoRule(rule r){
+
         autoRules.remove(r);
     }
     @Override
     public void checkAuto(){
+
         for (Map.Entry<rule, Equipment> entry : autoRules.entrySet()) {
             rule r = entry.getKey();
             Equipment device = entry.getValue();

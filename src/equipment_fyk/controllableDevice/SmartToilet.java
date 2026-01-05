@@ -2,7 +2,7 @@ package equipment_fyk.controllableDevice;
 
 import equipment_fyk.ControllableDevice;
 import equipment_fyk.Equipment;
-import equipment_fyk.autoRule.rule;
+import equipment_fyk.autoRule_twy.rule;
 
 /**
  * 智能马桶

@@ -4,17 +4,19 @@ import common.LangDetectFormatRegexConstants;
 import equipment_fyk.ControllableDevice;
 import equipment_fyk.Equipment;
 import equipment_fyk.adapter_CD.DeviceAdapter;
-import equipment_fyk.autoRule.DeviceControlAction;
-import equipment_fyk.autoRule.RuleCondition;
-import equipment_fyk.autoRule.rule;
+import equipment_fyk.autoRule_twy.DeviceControlAction;
+import equipment_fyk.autoRule_twy.RuleCondition;
+import equipment_fyk.autoRule_twy.rule;
+import equipment_fyk.controllableDevice.Sensor_hyh.Sensor;
 import equipment_fyk.decorator_HYH.EquipmentDecorator;
-import equipment_fyk.group.DeviceGroup;
+import equipment_fyk.group_cd.DeviceGroup;
+import notifier_hyh.Notifier;
 import room.Room;
 import room.factory.RoomFactory;
-import room.roomConfig_HYH.RoomConfig;
 import equipment_fyk.factory.EquipmentFactory;
-import strategy.Strategy;
-import strategy.StrategyContext;
+import room.roomConfig_HYH.RoomSceneState;
+import strategy_twy.Strategy;
+import strategy_twy.StrategyContext;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,9 +45,6 @@ public class SmartHomeControlSystem {
     // 房间分类管理
     private final Map<String, Room> roomGroups = new HashMap<>();
     private  Integer nextRoomGroupId = 1;
-    // 房间配置管理
-    private final Map<String, RoomConfig> roomConfigs = new HashMap<>();
-    private  Integer nextRoomConfigId = 1;
     // 设备适配器管理
     private final Map<String, DeviceAdapter> deviceAdapters = new HashMap<>();
     // 设备装饰器管理
@@ -76,10 +75,12 @@ public class SmartHomeControlSystem {
     public String addEquipment(String name,String type) {
         String id = EQUIPMENT_ID_PREFIX + getNextEquipmentId().toString();
         Equipment equipment = equipmentFactory.createEquipment(type, id, name);
+        equipment.setUp();
         equipments.put(id, equipment);
         System.out.println("设备已添加：" + name);
         return id;
     }
+
 
     /**
      * 添加设备到指定类型组
@@ -97,7 +98,7 @@ public class SmartHomeControlSystem {
         }
         // 添加设备到对应类型组
         deviceGroups.get(groupName).addComponent(equipments.get(equipmentId));
-        System.out.println("设备已添加到设备组：" + groupName);
+        System.out.println(equipments.get(equipmentId).getName()+"已添加到设备组：" + groupName);
         return groupName;
     }
 
@@ -131,7 +132,7 @@ public class SmartHomeControlSystem {
             return;
         }
         roomGroups.get(roomId).addEquipment(equipments.get(equipmentId));
-        System.out.println("设备已添加到房间：" + roomGroups.get(roomId).getName());
+        System.out.println("设备"+equipments.get(equipmentId).getName()+"已添加到房间：" + roomGroups.get(roomId).getName());
     }
 
     /**
@@ -262,7 +263,7 @@ public class SmartHomeControlSystem {
             return;
         }
         Equipment equipment = equipments.get(equipmentId);
-        System.out.println("设备："+equipment.getName()+" 执行:"+action);
+        System.out.println(equipment.getName()+" 执行:"+action);
         executeAction(equipment, action);
     }
 
@@ -457,13 +458,6 @@ public class SmartHomeControlSystem {
     public Integer getNextRoomGroupId() {
         return nextRoomGroupId++;
     }
-    /**
-     * 获取下一个房间配置ID
-     * @return 下一个房间配置ID
-     */
-    public Integer getNextRoomConfigId() {
-        return nextRoomConfigId++;
-    }
 
     /**
      * 获取所有设备
@@ -487,14 +481,6 @@ public class SmartHomeControlSystem {
      */
     public Map<String,Room> getRoomGroups() {
         return roomGroups;
-    }
-
-    /**
-     * 获取所有房间配置
-     * @return 所有房间配置映射
-     */
-    public Map<String,RoomConfig> getRoomConfigs() {
-        return roomConfigs;
     }
 
     /**
@@ -533,6 +519,29 @@ public class SmartHomeControlSystem {
             targetRoom.copyScenesFrom(sourceRoom);
         } else {
             System.out.println("源房间或目标房间不存在");
+        }
+    }
+
+    /**
+     * 为房间添加场景模式
+     */
+    public void setRoomSceneMode(String roomId, RoomSceneState sceneMode) {
+        if (roomGroups.containsKey(roomId)) {
+            roomGroups.get(roomId).addScene(sceneMode);
+        } else {
+            System.out.println("房间不存在: " + roomId);
+        }
+    }
+
+    /**
+     * 为传感器设备添加通知者
+     */
+    public void setNotifiers(String sensorId, Notifier notifier) {
+        if (equipments.containsKey(sensorId)) {
+            Sensor sensor = (Sensor) equipments.get(sensorId);
+            sensor.addNotifier(notifier);
+        } else {
+            System.out.println("传感器不存在: " + sensorId);
         }
     }
 

@@ -12,6 +12,7 @@ public class AirConditioner extends Equipment implements HomeAppliances {
      */
     public AirConditioner() {
         super();
+        setProperty("temperature", 25.0);
         setProperty("type", this.getClass().getSimpleName());
     }
     /**
@@ -21,7 +22,7 @@ public class AirConditioner extends Equipment implements HomeAppliances {
      */
     public AirConditioner(String id,String name) {
         super(id,name);
-        setProperty("temperature", 0.0);
+        setProperty("temperature", 25.0);
         setProperty("type", this.getClass().getSimpleName());
     }
     @Override
@@ -44,6 +45,19 @@ public class AirConditioner extends Equipment implements HomeAppliances {
             System.out.println("[空调-" + getId() + "] 已开启");
         } else if ("关闭".equals(command)) {
             System.out.println("[空调-" + getId() + "] 已关闭");
+        } else if (command.startsWith("设置温度")) {
+            String[] parts = command.split(" ");
+            if (parts.length == 2) {
+                try {
+                    double temperature = Double.parseDouble(parts[1]);
+                    setProperty("temperature", temperature);
+                    System.out.println("[空调-" + getId() + "] 温度已设置为 " + temperature);
+                } catch (NumberFormatException e) {
+                    System.out.println("温度格式错误");
+                }
+            } else {
+                System.out.println("设置温度命令格式错误");
+            }
         }
     }
 }

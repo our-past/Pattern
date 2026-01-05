@@ -1,7 +1,7 @@
 package equipment_fyk.adapter_CD;
 
 import equipment_fyk.Equipment;
-import equipment_fyk.three.ThirdPartyAlarm;
+import equipment_fyk.three_cd.ThirdPartyAlarm;
 
 public class AlarmLocal extends Equipment {
     private ThirdPartyAlarm alarm;

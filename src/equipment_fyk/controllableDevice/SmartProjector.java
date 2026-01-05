@@ -2,7 +2,7 @@ package equipment_fyk.controllableDevice;
 
 import equipment_fyk.ControllableDevice;
 import equipment_fyk.Equipment;
-import equipment_fyk.autoRule.rule;
+import equipment_fyk.autoRule_twy.rule;
 
 /**
  * 智能投影仪
@@ -36,6 +36,7 @@ public class SmartProjector extends Equipment implements ControllableDevice {
     
     @Override
     public void activate() {
+
         System.out.println(" SmartProjector activate");
     }
     @Override
@@ -44,10 +45,12 @@ public class SmartProjector extends Equipment implements ControllableDevice {
     }
     @Override
     public void addAutoRule(rule r, Equipment e) {
+
         System.out.println(" SmartProjector addAutoRule");
     }
     @Override
     public void removeAutoRule(rule r) {
+
         System.out.println(" SmartProjector removeAutoRule");
     }
     @Override

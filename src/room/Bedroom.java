@@ -1,8 +1,6 @@
 package room;
 
 import equipment_fyk.Equipment;
-import room.roomConfig_HYH.BedroomConfig;
-import room.roomConfig_HYH.RoomConfig;
 
 public class Bedroom extends Room{
 
@@ -11,7 +9,6 @@ public class Bedroom extends Room{
      */
     public Bedroom() {
         super();
-        setRoomConfig(new BedroomConfig());
     }
 
      /**
@@ -21,7 +18,6 @@ public class Bedroom extends Room{
      */
     public Bedroom(String id, String name) {
         super(id, name);
-        setRoomConfig(new BedroomConfig(id,name));
     }
 
     @Override
@@ -37,11 +33,6 @@ public class Bedroom extends Room{
         for(Equipment equipment:equipments.values()){
             equipment.stop();
         }
-    }
-
-    @Override
-    public void changeRoomConfigSelf(RoomConfig roomConfig) {
-
     }
 
 }

@@ -1,7 +1,7 @@
 package equipment_fyk.adapter_CD;
 
 import equipment_fyk.Equipment;
-import equipment_fyk.three.ThirdPartySmartToilet;
+import equipment_fyk.three_cd.ThirdPartySmartToilet;
 
 public class SmartToiletLocal extends Equipment {
     private ThirdPartySmartToilet toilet;

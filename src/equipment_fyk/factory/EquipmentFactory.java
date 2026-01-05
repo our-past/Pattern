@@ -42,7 +42,6 @@ public class EquipmentFactory {
                 if (Equipment.class.isAssignableFrom(clazz) && !clazz.equals(Equipment.class)) {
                     // 将类名映射到Class对象
                     equipmentClassMap.put(clazz.getSimpleName(), (Class<? extends Equipment>) clazz);
-                    System.out.println("已注册设备类: " + clazz.getSimpleName());
                 }
             }
         } catch (IOException | ClassNotFoundException e) {

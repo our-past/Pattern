@@ -8,5 +8,8 @@ public class GreenState implements State{
         equipment.setState(this);
     }
 
-
+    @Override
+    public boolean isActive() {
+        return true;
+    }
 }

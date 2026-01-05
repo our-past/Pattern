@@ -1,6 +1,6 @@
 package equipment_fyk;
 
-import equipment_fyk.autoRule.rule;
+import equipment_fyk.autoRule_twy.rule;
 
 /**
  * 可控制设备接口

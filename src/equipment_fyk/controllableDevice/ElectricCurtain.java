@@ -2,7 +2,7 @@ package equipment_fyk.controllableDevice;
 
 import equipment_fyk.ControllableDevice;
 import equipment_fyk.Equipment;
-import equipment_fyk.autoRule.rule;
+import equipment_fyk.autoRule_twy.rule;
 
 /**
  * 智能窗帘
@@ -35,26 +35,36 @@ public class ElectricCurtain extends Equipment implements ControllableDevice {
     }
     @Override
     public void activate() {
+
         System.out.println(" ElectricCurtain activate");
     }
     @Override
     public void executeCommand(String command){
-        if (command.equals("close")) {
+
+        if (command.equals("关闭")) {
             setProperty("position", 0);
             System.out.println("[窗帘-" + getId()+":"+getName() + "] 已关闭");
+        } else if (command.equals("打开")) {
+            setProperty("position", 100);
+            System.out.println("[窗帘-" + getId()+":"+getName() + "] 已打开");
+        } else {
+            System.out.println(" ElectricCurtain 不支持命令：" + command);
         }
     }
 
     @Override
     public void addAutoRule(rule r, Equipment e) {
+
         System.out.println(" ElectricCurtain addAutoRule");
     }
     @Override
     public void removeAutoRule(rule r) {
+
         System.out.println(" ElectricCurtain removeAutoRule");
     }
     @Override
     public void checkAuto() {
+
         System.out.println(" ElectricCurtain checkAuto");
     }
 }

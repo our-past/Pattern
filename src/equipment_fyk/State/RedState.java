@@ -8,4 +8,8 @@ public class RedState implements State{
     public void changeState(Equipment equipment) {
         equipment.setState(this);
     }
+    @Override
+    public boolean isActive() {
+        return false;
+    }
 }
